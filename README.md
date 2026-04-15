@@ -4,11 +4,13 @@ En el presente repositorio se adjutan los codigos y otros productos realizados p
 Mosaicos HLS
 ## 1.2. Clasificación
 Clasificación anual Random Forest
-## 1.3. PostClasificación
+## 1.3. Mascara de Bosques
+Clasificación anual Random Forest
+## 1.4. PostClasificación
 Edición QGIS
-## 1.4. Ensamble 1.0 (Bosque Quemado)
+## 1.5. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
-## 1.4. Filtro Espacial
+## 1.6. Filtro Espacial
 Filtro que se realizo en GEE
-## 1.5. Ensamble 2.0 
+## 1.7. Ensamble 2.0 (Consistencia Temporal)
 Tras el filtro espacial se ha realizado un ensamble de todos los años
