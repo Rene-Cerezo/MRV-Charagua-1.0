@@ -2,7 +2,6 @@ var YEAR = 2022;
 var VERSION = 'v2';
 
 var AOI = ee.FeatureCollection('users/renecrzprd/AOI_2023/Limite_Charagua_Mayo_2km').geometry();
-
 var ASSET_FOLDER = 'projects/ee-mrvbolivia2/assets/DEFO_AR/';
 var years = [2018,2019,2020,2021,2022,2023,2024,2025];
 
