@@ -1,4 +1,4 @@
-
+ 
 var YEAR = 2022
 var charCamAssets = {
   2018: "projects/project-mrv3/assets/2018_CHAR_CAM_v2",
