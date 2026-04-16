@@ -8,11 +8,11 @@ Clasificación anual Random Forest
 Clasificación anual Random Forest
 ### 1.2.2. Deforestación 
 Clasificación anual Random Forest
-## 1.4. PostClasificación
+## 1.3. PostClasificación
 Edición QGIS
-## 1.5. Ensamble 1.0 (Bosque Quemado)
+## 1.4. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
-## 1.6. Filtro Espacial
+## 1.5. Filtro Espacial
 Filtro que se realizo en GEE
-## 1.7. Ensamble 2.0 (Consistencia Temporal)
+## 1.6. Ensamble 2.0 (Consistencia Temporal)
 Tras el filtro espacial se ha realizado un ensamble de todos los años
