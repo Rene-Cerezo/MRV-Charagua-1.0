@@ -4,9 +4,9 @@ En el presente repositorio se adjutan los codigos y otros productos realizados p
 Mosaicos HLS
 ## 1.2. Clasificación
 Clasificación anual Random Forest
-### 1.2.1. Mascara de Bosques
+### 1.2.1. Mascara de Bosques 
 Clasificación anual Random Forest
-### 1.2.2. Deforestación
+### 1.2.2. Deforestación 
 Clasificación anual Random Forest
 ## 1.4. PostClasificación
 Edición QGIS
