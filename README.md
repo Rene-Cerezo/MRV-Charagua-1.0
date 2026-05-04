@@ -1,5 +1,5 @@
 # 1. MRV - Charagua 1.0
-En el presente repositorio se adjutan los codigos y otros productos realizados para el mapeo de datos de actividad (Deforestación y Bosque Quemado)
+Con el objetivo de generar datos espaciales de calidad que permitan cuantificar la extension y definir la temporalidad de la Deforestación y los Bosque Quemados se plantea una metodologia de mapeo anual para el municipio de Charagua, en Santa Cruz, Bolivia, a partir de clasificacion supervisada de imagenes Landsat, Random forest y ejercicios de Clasificacion.
 ## 1.1. Composición de Mosaicos
 Mosaicos HLS
 ## 1.2. Clasificación
