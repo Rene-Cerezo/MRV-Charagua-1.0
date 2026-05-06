@@ -14,6 +14,8 @@ Este algoritmo permite realizar la captura de muestras de entrenamiento de dos c
 Enlace Clasificacion Deforestación: [script Class Defo GEE](https://code.earthengine.google.com/79f6ba734ec615394da0ee6417972aa)
 ### 1.2.2. Mascara de Bosques 
 Para la construccion de la Macara de Bosques (año 0) se realizo un comparacion entre varios productos, posteriormente se analiza el acuerdo de mapeo de bosques, entre diferentes productos derivados de datos satelitales.
+
+Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.earthengine.google.com/3896220b1574974315e98136065a3eb2)
 ## 1.3. PostClasificación
 Edición QGIS
 ## 1.4. Ensamble 1.0 (Bosque Quemado)
