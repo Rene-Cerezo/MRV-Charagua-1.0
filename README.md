@@ -19,7 +19,7 @@ Enlace Coincidencia de Bosque: [script Coincidencia GEE](https://code.earthengin
 
 Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.earthengine.google.com/3896220b1574974315e98136065a3eb2)
 ## 1.3. PostClasificación
-Edición QGIS
+La postclasficaion se realizo empleando [QGIS](https://qgis.org/)y la aplicación [ThRasE] (https://plugins.qgis.org/plugins/ThRasE/)
 ## 1.4. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
 ## 1.6. Ensamble 2.0 (Consistencia Temporal)
