@@ -22,7 +22,5 @@ Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.eart
 Edición QGIS
 ## 1.4. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
-## 1.5. Filtro Espacial
-Filtro que se realizo en GEE
 ## 1.6. Ensamble 2.0 (Consistencia Temporal)
 Tras el filtro espacial se ha realizado un ensamble de todos los años
