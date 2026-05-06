@@ -15,6 +15,7 @@ Enlace Clasificacion Deforestación: [script Class Defo GEE](https://code.earthe
 ### 1.2.2. Mascara de Bosques 
 Para la construccion de la Macara de Bosques (año 0) se realizo un comparacion entre varios productos, posteriormente se analiza el acuerdo de mapeo de bosques, entre diferentes productos derivados de datos satelitales.
 
+Enlace Coincidencia de Bosque: [script Coincidencia GEE](https://code.earthengine.google.com/d632c738715fbe7a5727713718930e01)
 Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.earthengine.google.com/3896220b1574974315e98136065a3eb2)
 ## 1.3. PostClasificación
 Edición QGIS
