@@ -11,7 +11,7 @@ La clasificacion Anual de Deforestacion y Bosque quemado, es resuldo de la ejecu
 ### 1.2.1. Deforestación 
 Este algoritmo permite realizar la captura de muestras de entrenamiento de dos clases **deforestación y no deforestación** para Randon Forest (definicion de 100 a 500 arboles de decisión) a partir de la interpretacion de los mosaicos AQM y criterios de interpretación. 
 
-Enlace Clasificacion Deforestación: [script Class Defo GEE] (https://code.earthengine.google.com/79f6ba734ec615394da0ee6417972aa)
+Enlace Clasificacion Deforestación: [script Class Defo GEE](https://code.earthengine.google.com/79f6ba734ec615394da0ee6417972aa)
 ### 1.2.2. Mascara de Bosques 
 Para la construccion de la Macara de Bosques (año 0) se realizo un comparacion entre varios productos, posteriormente se analiza el acuerdo de mapeo de bosques, entre diferentes productos derivados de datos satelitales.
 ## 1.3. PostClasificación
