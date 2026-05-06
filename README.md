@@ -1,5 +1,6 @@
 # 1. Datos de Actividad - Charagua 1.0
 Con el objetivo de generar datos espaciales de calidad que permitan cuantificar la extension y definir la temporalidad de la Deforestación y los Bosque Quemados se plantea una metodologia de mapeo anual para el municipio de Charagua, en Santa Cruz, Bolivia, a partir de clasificacion supervisada de imagenes Landsat, Random forest y ejercicios de post-clasificacion.
+[Limite Charagua]([https://www.google.com](https://code.earthengine.google.com/a67b00150abeb0f3d47cec8e8e57eb6c))
 ## 1.1. Construcción de Mosaicos
 Se desarrollaron algoritmos en GEE para la construccion de Mosaicos HLS armonizados, utilizando colecciones de imagenes (Landsat 8, Landsat 9 y Sentinel-2) aplicando filtros espaciales,temporales y de nubosidad, asi como la aplicacion de mascaras adicionales y el calculo de NBR y su inverso para construir el Mosaico AQM con valores mas altos de NBR inverso. 
 ## 1.2. Clasificación
