@@ -4,6 +4,8 @@ Con el objetivo de generar datos espaciales de calidad que permitan cuantificar 
 Limite Charagua: [script GEE ](https://code.earthengine.google.com/a67b00150abeb0f3d47cec8e8e57eb6c)
 ## 1.1. Construcción de Mosaicos
 Se desarrollaron algoritmos en GEE para la construccion de Mosaicos HLS armonizados, utilizando colecciones de imagenes (Landsat 8, Landsat 9 y Sentinel-2) aplicando filtros espaciales,temporales y de nubosidad, asi como la aplicacion de mascaras adicionales y el calculo de NBR y su inverso para construir el Mosaico AQM con valores mas altos de NBR inverso. 
+
+Mosacios AQM: [script GEE ](https://code.earthengine.google.com/3a0e036d4846e6b89b5e78b7b5ee0cd4)
 ## 1.2. Clasificación
 La clasificacion Anual de Deforestacion y Bosque quemado, es resuldo de la ejecucion de algoritmos desarrollados para cada tarea esoecifica.
 ### 1.2.1. Deforestación 
