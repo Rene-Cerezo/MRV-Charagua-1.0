@@ -24,5 +24,12 @@ Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.eart
 La postclasficaion se realizo empleando [QGIS](https://qgis.org/) y la aplicación [ThRasE](https://plugins.qgis.org/plugins/ThRasE/)
 ## 1.4. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
+
+Enlace Ensamble incial: [script ensamble GEE](https://code.earthengine.google.com/450d37554f805021fda21e9c962b7c80 )
+
 ## 1.6. Ensamble 2.0 (Consistencia Temporal)
 Tras el filtro espacial se ha realizado un ensamble de todos los años
+
+Enlace Ensamble final: [script ensamble fin GEE](https://code.earthengine.google.com/5866c14ff9f1e91d8dddb8f15735846f)
+
+
