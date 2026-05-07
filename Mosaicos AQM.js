@@ -24,7 +24,7 @@ function maskAndScale(image) {
     .and(fmask.bitwiseAnd(CIRRUS_BIT).eq(0));
 
 
-  var maskRigurosa = mask.focalMin({radius: 2, kernelType: 'circle', units: 'pixels', iterations: 2});
+var maskRigurosa = mask.focalMin({radius: 2, kernelType: 'circle', units: 'pixels', iterations: 2});
 
   
   return image.updateMask(maskRigurosa)
