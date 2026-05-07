@@ -5,7 +5,7 @@
 // Descarga de clasificacion no supervisada
 
 var changex = ee.Image("users/armandorodriguezmontellano/HLS/Char_HLS_2017");
-var BolCoin = ee.Image("users/rrcp/Coincidencia_Bosques_Charagua");
+var BolCoin = ee.Image("users/rrcp/Coincidencia_Bosques_Charagua"); 
 
 var FNF = BolCoin
   .where(BolCoin.gte(0).and(BolCoin.lte(3)), 1)
