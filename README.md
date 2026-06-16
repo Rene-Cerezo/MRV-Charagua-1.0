@@ -17,19 +17,19 @@ Enlace Clasificacion Deforestación: [script Class Defo GEE](https://code.earthe
 ### 1.2.2. Mascara de Bosques 
 Para la construccion de la Macara de Bosques (año 0) se realizo un comparacion entre varios productos, posteriormente se analiza el acuerdo de mapeo de bosques, entre diferentes productos derivados de datos satelitales.
 
-Enlace Coincidencia de Bosque: [script Coincidencia GEE](https://code.earthengine.google.com/d632c738715fbe7a5727713718930e01)
+Enlace Coincidencia de Bosque: [script Coincidencia GEE](https://code.earthengine.google.com/ebd22f0d1e6c6630d24500e22e95ff25)
 
-Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.earthengine.google.com/3896220b1574974315e98136065a3eb2)
+Enlace Clasificacion no supervisada: [script Class No sup GEE](https://code.earthengine.google.com/4310aacfeb33f56de6781c8a9891032f)
 ## 1.3. PostClasificación
 La postclasficaion se realizo empleando [QGIS](https://qgis.org/) y la aplicación [ThRasE](https://plugins.qgis.org/plugins/ThRasE/)
 ## 1.4. Ensamble 1.0 (Bosque Quemado)
 La union con la cobertura de Boque y Mapbiomas quemas
 
-Enlace Ensamble incial: [script ensamble GEE](https://code.earthengine.google.com/450d37554f805021fda21e9c962b7c80 )
+Enlace Ensamble incial: [script ensamble GEE](https://code.earthengine.google.com/efc63cd2f2d3f319666c33e0d7d42952)
 
 ## 1.6. Ensamble 2.0 (Consistencia Temporal)
 Tras el filtro espacial se ha realizado un ensamble de todos los años
 
-Enlace Ensamble final: [script ensamble fin GEE](https://code.earthengine.google.com/5866c14ff9f1e91d8dddb8f15735846f)
+Enlace Ensamble final: [script ensamble fin GEE](https://code.earthengine.google.com/e9a8e9acad04361a877c5f164285683b)
 
 
