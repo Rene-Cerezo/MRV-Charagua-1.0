@@ -1,41 +1,37 @@
-// // ============================================================================
-// TÍTULO: Clasificación de Bosques (Año 0)
-// DESCRIPCIÓN:
-// Este script realiza una clasificación no supervisada de cobertura Bosque y 
-//No Bosque utilizando imágenes HLS (Harmonized Landsat Sentinel-2) y el algoritmo 
-//KMeans en Google Earth Engine.
+/* ============================================================================
+                     CLASIFICACIÓN NO SUPERVISADA
+                      (Mapeo de Bosques - año 0)
+Descripción:
+  Este script realiza una clasificación no supervisada de cobertura Bosque y 
+  No Bosque utilizando imágenes HLS (Harmonized Landsat Sentinel-2) y el algoritmo 
+  KMeans en Google Earth Engine.
 
-// Flujo de procesamiento:
-//   1. Carga de imágenes HLS y mapa de coincidencia de bosque.
-//   2. Generación de máscara Bosque/No Bosque (FNF) a partir de umbrales de
-//      coincidencia.
-//   3. Aplicación de máscara para conservar píxeles de bosque.
-//   4. Selección de bandas espectrales:
-//      ('blue', 'green', 'red', 'nir', 'swir1', 'swir2').
-//   5. Muestreo aleatorio de píxeles de entrenamiento.
-//   6. Entrenamiento de clasificador no supervisado KMeans con 20 clústeres.
-//   7. Generación y visualización de estratos espectrales.
-//   8. Reclasificación binaria manual de clústeres:
-//      Clase 1 = Bosque / Clase 0 = No Bosque.
-//   9. Navegación interactiva por grillas para validación visual.
-//  10. Exportación de clasificación binaria a Google Earth Engine Assets.
+Flujo de procesamiento:
+     1. Carga de imágenes HLS y mapa de coincidencia de bosque.
+     2. Generación de máscara Bosque/No Bosque (FNF) a partir de umbrales de
+        coincidencia.
+     3. Aplicación de máscara para conservar píxeles de bosque.
+     4. Selección de bandas espectrales:
+        ('blue', 'green', 'red', 'nir', 'swir1', 'swir2').
+     5. Muestreo aleatorio de píxeles de entrenamiento.
+     6. Entrenamiento de clasificador no supervisado KMeans con 20 clústeres.
+     7. Generación y visualización de estratos espectrales.
+     8. Reclasificación binaria manual de clústeres:
+        Clase 1 = Bosque / Clase 0 = No Bosque.
+     9. Navegación interactiva por grillas para validación visual.
+    10. Exportación de clasificación binaria a Google Earth Engine Assets.
 
-// AUTOR: Equipo MRV - Bolivia
+ Datos de Entrada:
+   - users/armandorodriguezmontellano/HLS/Char_HLS_2017
+   - users/rrcp/Coincidencia_Bosques_Charagua
+   - projects/ee-geraldina/assets/grillas_Char_v1
 
-// FECHA DE CREACIÓN: 2026
+ Resolución:            30 metros 
+ Sistema de Referencia: EPSG:4326
+ Fecha de creación:     Marzo 2026
+ Autor:                 Equipo MRV - Bolivia
 
-// DATOS DE ENTRADA:
-//   - users/armandorodriguezmontellano/HLS/Char_HLS_2017
-//   - users/rrcp/Coincidencia_Bosques_Charagua
-//   - projects/ee-geraldina/assets/grillas_Char_v1
-
-// RESOLUCIÓN:
-//   - 30 metros
-
-// SISTEMA DE REFERENCIA:
-//   - EPSG:4326
-
-// ============================================================================
+ ============================================================================*/
 
 var changex = ee.Image("users/armandorodriguezmontellano/HLS/Char_HLS_2017");
 var BolCoin = ee.Image("users/rrcp/Coincidencia_Bosques_Charagua"); 
@@ -149,7 +145,7 @@ function computeAndRender(){
   Map.addLayer(changex.clip(geom), vizx, 'HLS original', false);
 
   var imgMasked = changex.updateMask(maskFNF).clip(geom);
-  Map.addLayer(imgMasked, vizx, 'imagen-2017xxx', true);
+  Map.addLayer(imgMasked, vizx, 'Imagen-2017', true);
 
   var img = imgMasked.select(['blue','green','red','nir','swir1','swir2']);
   var scale = img.projection().nominalScale();
@@ -220,7 +216,7 @@ function exportCurrentGrid(){
   print('Exportando:', assetName);
 }
 
-panel.add(ui.Label('KMeans sobre imagen-2017xxx (HLS masked by FNF)', {fontWeight:'bold', fontSize:'14px'}));
+panel.add(ui.Label('KMeans sobre imagen-2017 (HLS masked by FNF)', {fontWeight:'bold', fontSize:'14px'}));
 panel.add(labelID);
 
 panel.add(ui.Panel([
