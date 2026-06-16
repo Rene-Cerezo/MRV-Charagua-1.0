@@ -1,67 +1,60 @@
-// ============================================================================
-// TÍTULO: Ensamblaje 1 - Superposición y aplicación de filtro espacial para integrar clases
-//(bosque, deforestación, bosque quemado y no bosque)
+/* ============================================================================
+                ENSAMBLE 1 - Superposición y aplicación de filtro espacial para integrar clases
+                    (bosque, deforestación, bosque quemado y no bosque)
 
-// DESCRIPCIÓN:
-// Este script genera una serie temporal anual de coberturas, integrando información de bosque,
-// deforestación, áreas quemadas y no bosque mediante un proceso de ensamblaje, armonización,
-// corrección y filtrado espacial, para construir productos anuales consistentes y corregidos
-// para el monitoreo de Bosques.
+ Descripción:
+ Este script genera una serie temporal anual de coberturas, integrando información de bosque,
+ deforestación, áreas quemadas y no bosque mediante un proceso de ensamblaje, armonización,
+ corrección y filtrado espacial, para construir productos anuales consistentes y corregidos
+ para el monitoreo de Bosques.
 
-// Flujo de procesamiento:
-//   1. Carga de capas base previamente descargadas:
-//        - Mosaico HLS 2017
-//        - Bosque/No Bosque
-//        - Deforestación anual
-//        - Áreas quemadas
-//        - Coberturas auxiliares de barbecho/cultivos
-//   2. Corrección y actualización de la capa Bosque/No Bosque mediante
-//      integración de máscaras auxiliares.
-//   3. Ajuste de capas de deforestación utilizando máscaras de bosque
-//      corregidas.
-//   4. Separación anual de deforestación (2018–2025).
-//   5. Construcción de coberturas forestales anuales corregidas.
-//   6. Integración de áreas quemadas sobre bosque para identificación de
-//      bosque quemado.
-//   7. Reclasificación temática estandarizada:
-//        1 = Bosque
-//        2 = Deforestación
-//        3 = No Bosque
-//        4 = Bosque Quemado
-//   8. Generación de ensamblajes anuales mediante combinación de clases.
-//   9. Aplicación de filtros espaciales:
-//        - connectedPixelCount()
-//        - focal_mode()
-//      para reducción de ruido espacial y suavizado de píxeles aislados.
-//  10. Corrección espacial mediante mosaico entre capas originales y
-//      resultados filtrados.
-//  11. Exportación de productos finales anuales a Google Drive.
+ Flujo de procesamiento:
+   1. Carga de capas base previamente descargadas:
+        - Mosaico HLS 2017
+        - Bosque/No Bosque
+        - Deforestación anual
+        - Áreas quemadas
+        - Coberturas auxiliares de barbecho/cultivos
+   2. Corrección y actualización de la capa Bosque/No Bosque mediante
+      integración de máscaras auxiliares.
+   3. Ajuste de capas de deforestación utilizando máscaras de bosque
+      corregidas.
+   4. Separación anual de deforestación (2018–2025).
+   5. Construcción de coberturas forestales anuales corregidas.
+   6. Integración de áreas quemadas sobre bosque para identificación de
+      bosque quemado.
+   7. Reclasificación temática estandarizada:
+        1 = Bosque
+        2 = Deforestación
+        3 = No Bosque
+        4 = Bosque Quemado
+   8. Generación de ensamblajes anuales mediante combinación de clases.
+   9. Aplicación de filtros espaciales:
+        - connectedPixelCount()
+        - focal_mode()
+      para reducción de ruido espacial y suavizado de píxeles aislados.
+  10. Corrección espacial mediante mosaico entre capas originales y
+      resultados filtrados.
+  11. Exportación de productos finales anuales a Google Drive desde TASK de GEE.
 
-// AUTOR:
-// Equipo MRV - Bolivia
+ Clases finales:
+   - 1 = Bosque
+   - 2 = Deforestación
+   - 3 = No Bosque
+   - 4 = Bosque Quemado
+ 
+ Datos de Entrada:
+   - HLS Landsat-Sentinel
+   - Capas de Bosque/No Bosque
+   - Productos anuales de deforestación
+   - Productos de áreas quemadas
+   - Máscaras auxiliares de barbecho/cultivos
 
-// FECHA DE CREACIÓN:
-// 2026
-
-// DATOS DE ENTRADA:
-//   - HLS Landsat-Sentinel
-//   - Capas de Bosque/No Bosque
-//   - Productos anuales de deforestación
-//   - Productos de áreas quemadas
-//   - Máscaras auxiliares de barbecho/cultivos
-
-// CLASIFICACIÓN TEMÁTICA FINAL:
-//   - 1 = Bosque
-//   - 2 = Deforestación
-//   - 3 = No Bosque
-//   - 4 = Bosque Quemado
-
-// RESOLUCIÓN:
-// 30 metros
-
-// SISTEMA DE REFERENCIA:
-// EPSG:4326
-// ============================================================================
+ Resolución:            30 metros 
+ Sistema de Referencia: EPSG:4326
+ Fecha de creación:     Marzo 2026
+ Autor:                 Equipo MRV - Bolivia
+ / =====================================================================================*/
 
 //landsatHLS
 var vizx = {opacity: 1, bands: ['swir2','nir','red'],min: 0.03355755615234375,max: 0.3840377788270786,gamma: 1};
@@ -94,7 +87,7 @@ var aq2022 = Quema22_Corregida;
 var aq2023 = Quema23_Corregida;
 var aq2024 = Quema24_Corregida;
 var aq2025 = Quema25_Corregida;
-Map.addLayer(BosqueNoBosquev3,null,"xxxx")
+
 
 // Defo corregida por años
 var defo2018 = Defo2018_2025_v2.eq(2018).clip(aoi);
@@ -244,6 +237,10 @@ var final22 = ee.ImageCollection([union2022, kernes_pixeles2022]).mosaic();
 var final23 = ee.ImageCollection([union2023, kernes_pixeles2023]).mosaic();
 var final24 = ee.ImageCollection([union2024, kernes_pixeles2024]).mosaic();
 var final25 = ee.ImageCollection([union2025, kernes_pixeles2025]).mosaic();
+
+
+
+
 
 //Descarga ASSET
 Export.image.toDrive({
