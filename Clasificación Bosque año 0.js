@@ -1,8 +1,41 @@
-// Clasificaion no supervisada para Bosque y No bosque
-// Definir grilla a clasificar
-// Definir cluster
-// Agrupacion de cluster por clase
-// Descarga de clasificacion no supervisada
+// // ============================================================================
+// TÍTULO: Clasificación de Bosques (Año 0)
+// DESCRIPCIÓN:
+// Este script realiza una clasificación no supervisada de cobertura Bosque y 
+//No Bosque utilizando imágenes HLS (Harmonized Landsat Sentinel-2) y el algoritmo 
+//KMeans en Google Earth Engine.
+
+// Flujo de procesamiento:
+//   1. Carga de imágenes HLS y mapa de coincidencia de bosque.
+//   2. Generación de máscara Bosque/No Bosque (FNF) a partir de umbrales de
+//      coincidencia.
+//   3. Aplicación de máscara para conservar píxeles de bosque.
+//   4. Selección de bandas espectrales:
+//      ('blue', 'green', 'red', 'nir', 'swir1', 'swir2').
+//   5. Muestreo aleatorio de píxeles de entrenamiento.
+//   6. Entrenamiento de clasificador no supervisado KMeans con 20 clústeres.
+//   7. Generación y visualización de estratos espectrales.
+//   8. Reclasificación binaria manual de clústeres:
+//      Clase 1 = Bosque / Clase 0 = No Bosque.
+//   9. Navegación interactiva por grillas para validación visual.
+//  10. Exportación de clasificación binaria a Google Earth Engine Assets.
+
+// AUTOR: Equipo MRV - Bolivia
+
+// FECHA DE CREACIÓN: 2026
+
+// DATOS DE ENTRADA:
+//   - users/armandorodriguezmontellano/HLS/Char_HLS_2017
+//   - users/rrcp/Coincidencia_Bosques_Charagua
+//   - projects/ee-geraldina/assets/grillas_Char_v1
+
+// RESOLUCIÓN:
+//   - 30 metros
+
+// SISTEMA DE REFERENCIA:
+//   - EPSG:4326
+
+// ============================================================================
 
 var changex = ee.Image("users/armandorodriguezmontellano/HLS/Char_HLS_2017");
 var BolCoin = ee.Image("users/rrcp/Coincidencia_Bosques_Charagua"); 
