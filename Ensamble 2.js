@@ -1,51 +1,42 @@
-// ============================================================================
-// TÍTULO: Ensamblaje 2 (Consistencia Temporal)
+/*=================================================================================================================
+                    ENSAMBLE 2 (Consistencia Temporal)
 
-// DESCRIPCIÓN:
-// Este script genera ensamblajes temáticos anuales corregidos y filtrados a
-// una unidad mínima cartografiable equivalente a 1 hectárea, integrando
-// información de bosque intacto, deforestación y bosque quemado para el área
-// de estudio buscando la consistencia temporal entre coberturas, correccion de
-// superposiciones de eventos de deforestación y eliminar falsas detecciones.
+ Descripción:
+ Este script genera ensamblajes temáticos anuales corregidos y filtrados a
+ una unidad mínima cartografiable equivalente a 1 hectárea, integrando
+ información de bosque intacto, deforestación y bosque quemado para el área
+ de estudio buscando la consistencia temporal entre coberturas, correccion de
+ superposiciones de eventos de deforestación y eliminar falsas detecciones.
+ 
+ Flujo de procesamiento:
+   1. Carga de ensamblajes anuales previamente filtrados y corregidos
+      (2017–2025).
+   2. Extracción temática de:
+        - Deforestación
+        - Bosque quemado
+        - Bosque base
+   3. Generación de capas anuales de deforestación.
+   4. Corrección temporal de deforestación mediante asignación
+       del año de ocurrencia.
+   5. Integración multitemporal de deforestación.
+   6. Corrección de falsa deforestación utilizando la cobertura base de
+      bosque 2017.
+   7. Reconstrucción secuencial de bosque anual, mediante remoción
+      acumulativa de áreas deforestadas.
+   8. Corrección temática de bosque quemado utilizando máscaras de bosque
+      coherente.
+   9. Identificación de bosque intacto excluyendo áreas quemadas.
+  10. Construcción de ensamblajes finales anuales.
+ 
+ Datos de Entrada:
+   MapBiomas Bolivia Collection 3
+   Harmonized Landsat and Sentinel-2
 
-// Flujo de procesamiento:
-//   1. Carga de ensamblajes anuales previamente filtrados y corregidos
-//      (2017–2025).
-//   2. Extracción temática de:
-//        - Deforestación
-//        - Bosque quemado
-//        - Bosque base
-//   3. Generación de capas anuales de deforestación.
-//   4. Corrección temporal de deforestación mediante asignación
-//       del año de ocurrencia.
-//   5. Integración multitemporal de deforestación.
-//   6. Corrección de falsa deforestación utilizando la cobertura base de
-//      bosque 2017.
-//   7. Reconstrucción secuencial de bosque anual, mediante remoción
-//      acumulativa de áreas deforestadas.
-//   8. Corrección temática de bosque quemado utilizando máscaras de bosque
-//      coherente.
-//   9. Identificación de bosque intacto excluyendo áreas quemadas.
-//  10. Construcción de ensamblajes finales anuales.
-
-// AUTOR:
-// Equipo MRV - Bolivia
-
-// FECHA DE CREACIÓN:
-// 2026
-
-// DATOS DE ENTRADA:
-//   - Ensamblajes anuales filtrados
-//   - Capas de deforestación anual
-//   - Capas de bosque quemado
-//   - Cobertura forestal base 2017
-
-// RESOLUCIÓN:
-// 30 metros
-
-// SISTEMA DE REFERENCIA:
-// EPSG:4326
-// ============================================================================
+ Resolución:            30 metros 
+ Sistema de Referencia: EPSG:4326
+ Fecha de creación:     Marzo 2026
+ Autor:                 Equipo MRV - Bolivia
+ / =====================================================================================*/
 
 // FINALES FILTRADOS A 1 HA
 // Bosques 2017
