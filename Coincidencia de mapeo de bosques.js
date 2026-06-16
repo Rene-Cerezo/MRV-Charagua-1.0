@@ -1,53 +1,49 @@
-// ============================================================================
-// TÍTULO: Coincidencia de mapeo de bosques
-// DESCRIPCIÓN:
-// Este script genera un mapa de coincidencia espacial de cobertura de bosque
-// mediante la integración de múltiples productos globales y regionales de
-// mapeo de Bosques con el objetivo de identificar el nivel de coincidencia entre 
-// distintas fuentres de informacion forestal mediante la reclasificación binaria 
-// de bosque/no bosque y el análisis de superposición de resultados.
+/* ============================================================================
+                             COINCIDENCIA DE BOSQUES
+ Descripción:
+ 
+ Este script genera un mapa de coincidencia espacial de cobertura de bosque mediante la
+ integración de múltiples productos globales y regionales de mapeo de Bosques con el
+ objetivo de identificar el nivel de coincidencia entre distintas fuentres de informacion
+ forestal mediante la reclasificación binaria de bosque/no bosque y el análisis de
+ superposición de resultados.
 
-// Flujo de procesamiento:
-//   1. Definición del área de interés (ROI) y parámetros de visualización.
-//   2. Carga de productos globales y regionales de cobertura forestal:
-//        - MapBiomas Bolivia
-//        - Hansen Global Forest Change
-//        - GLCLUC
-//        - ESA WorldCover
-//        - JAXA ALOS PALSAR FNF
-//        - ESRI Land Cover
-//   3. Reclasificación temática de cada producto a formato binario:
-//        Bosque = 1
-//        No Bosque = 0
-//   4. Ajuste temporal y exclusión de pérdida forestal para Hansen
-//      utilizando pérdida acumulada hasta 2017.
-//   5. Homogeneización espacial y aplicación de máscaras.
-//   6. Generación de mapa de coincidencia mediante suma de capas binarias,
-//      obteniendo valores entre 0 y 6 según el número de fuentes que
-//      coinciden en la presencia de bosque.
-//   7. Visualización individual de productos y visualización del mapa final
-//      de coincidencias.
-//   8. Exportación del mapa de coincidencia a Google Drive y GEE Assets.
+ Flujo de procesamiento:
+ 
+   1. Definición del área de interés (ROI) y parámetros de visualización.
+   2. Carga de productos globales y regionales de cobertura forestal:
+        - MapBiomas Bolivia
+        - Hansen Global Forest Change
+        - GLCLUC
+        - ESA WorldCover
+        - JAXA ALOS PALSAR FNF
+        - ESRI Land Cover
+   3. Reclasificación temática de cada producto a formato binario:
+        Bosque = 1
+        No Bosque = 0
+   4. Ajuste temporal y exclusión de pérdida forestal para Hansen
+      utilizando pérdida acumulada hasta 2017.
+   5. Homogeneización espacial y aplicación de máscaras.
+   6. Generación de mapa de coincidencia mediante suma de capas binarias,
+     obteniendo valores entre 0 y 6 según el número de fuentes que
+     coinciden en la presencia de bosque.
+   7. Visualización individual de productos y visualización del mapa final
+     de coincidencias.
+   8. Exportación del mapa de coincidencia a Google Drive y GEE Assets.
 
-// AUTOR:
-// Equipo MRV - Bolivia
+Datos de Entrada:
+  MapBiomas Bolivia Collection 3
+  UMD Hansen Global Forest Change v1.12
+  GLAD GLCLUC 2020 v2
+  ESA WorldCover v100
+  JAXA ALOS PALSAR FNF
+  ESRI Land Cover
 
-// FECHA DE CREACIÓN: 2026
-
-// DATOS DE ENTRADA:
-//   - MapBiomas Bolivia Collection 3
-//   - UMD Hansen Global Forest Change v1.12
-//   - GLAD GLCLUC 2020 v2
-//   - ESA WorldCover v100
-//   - JAXA ALOS PALSAR FNF
-//   - ESRI Land Cover
-
-// RESOLUCIÓN:
-// 30 metros (exportación principal)
-
-// SISTEMA DE REFERENCIA:
-// EPSG:4326
-// ============================================================================
+ Resolución:            30 metros 
+ Sistema de Referencia: EPSG:4326
+ Fecha de creación:     Marzo 2026
+ Autor:                 Equipo MRV - Bolivia
+============================================================================*/
 
 // 1. ÁREA DE INTERÉS Y PARÁMETROS
 var region = ee.FeatureCollection('users/renecrzprd/AOI_2023/Limite_Charagua_Mayo_2km');
