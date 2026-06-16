@@ -1,7 +1,58 @@
+// ============================================================================
+// TÍTULO: Coincidencia de mapeo de bosques
+// DESCRIPCIÓN:
+// Este script genera un mapa de coincidencia espacial de cobertura de bosque
+// mediante la integración de múltiples productos globales y regionales de
+// mapeo de Bosques con el objetivo de identificar el nivel de coincidencia entre 
+// distintas fuentres de informacion forestal mediante la reclasificación binaria 
+// de bosque/no bosque y el análisis de superposición de resultados.
+
+// Flujo de procesamiento:
+//   1. Definición del área de interés (ROI) y parámetros de visualización.
+//   2. Carga de productos globales y regionales de cobertura forestal:
+//        - MapBiomas Bolivia
+//        - Hansen Global Forest Change
+//        - GLCLUC
+//        - ESA WorldCover
+//        - JAXA ALOS PALSAR FNF
+//        - ESRI Land Cover
+//   3. Reclasificación temática de cada producto a formato binario:
+//        Bosque = 1
+//        No Bosque = 0
+//   4. Ajuste temporal y exclusión de pérdida forestal para Hansen
+//      utilizando pérdida acumulada hasta 2017.
+//   5. Homogeneización espacial y aplicación de máscaras.
+//   6. Generación de mapa de coincidencia mediante suma de capas binarias,
+//      obteniendo valores entre 0 y 6 según el número de fuentes que
+//      coinciden en la presencia de bosque.
+//   7. Visualización individual de productos y visualización del mapa final
+//      de coincidencias.
+//   8. Exportación del mapa de coincidencia a Google Drive y GEE Assets.
+
+// AUTOR:
+// Equipo MRV - Bolivia
+
+// FECHA DE CREACIÓN: 2026
+
+// DATOS DE ENTRADA:
+//   - MapBiomas Bolivia Collection 3
+//   - UMD Hansen Global Forest Change v1.12
+//   - GLAD GLCLUC 2020 v2
+//   - ESA WorldCover v100
+//   - JAXA ALOS PALSAR FNF
+//   - ESRI Land Cover
+
+// RESOLUCIÓN:
+// 30 metros (exportación principal)
+
+// SISTEMA DE REFERENCIA:
+// EPSG:4326
+// ============================================================================
+
 // 1. ÁREA DE INTERÉS Y PARÁMETROS
 var region = ee.FeatureCollection('users/renecrzprd/AOI_2023/Limite_Charagua_Mayo_2km');
 
-// Parámetros de visualización faltantes
+// Parámetros de visualización
 var visBosque = {min: 0, max: 1, palette: ['black', 'green']};
 var visSuma = {min: 0, max: 6, palette: ['white', 'ffffbf', 'fee08b', 'd73027', 'd9ef8b', '91cf60', '1a9850']};
 
@@ -19,7 +70,7 @@ var esri_col = ee.ImageCollection([
 var esri_2017 = esri_col.mean().clip(region);
 
 // 3. PROCESAMIENTO: RECLASIFICACIÓN A BINARIO (Bosque = 1, Otro = 0)
-// Mapbiomas , bosque 2017 la clase 3 o 6
+// Mapbiomas , bosque 2017 (clase 3 o 6)
 var b_mapbioma = mapbiomas.eq(3).or(mapbiomas.eq(6))
                   .clip(region)
                   .rename("classification_2017");
@@ -39,17 +90,16 @@ var b_glcluc = glcluc.gte(27).and(glcluc.lte(48))
               .or(glcluc.gte(124).and(glcluc.lte(148)))
               .unmask(0).clip(region);
 
-// ESA WorldCover (Clase 10 es Árboles)
+// ESA WorldCover (Clase 10)
 var b_esa = esa2020.eq(10).unmask(0).clip(region);
 
-// JAXA (Clase 1 es Bosque)
+// JAXA (Clase 1)
 var b_jaxa = jaxa2017.select('fnf').eq(1).unmask(0).clip(region);
 
-// ESRI (Clase 2 es Árboles)
+// ESRI (Clase 2)
 var b_esri = esri_2017.eq(2).unmask(0);
 
 // 4. ANÁLISIS DE COINCIDENCIA
-// Sumamos todos para ver cuántos modelos están de acuerdo en un píxel
 var coincidencia = ee.Image(0)
     .add(b_mapbioma)
     .add(b_umd)
