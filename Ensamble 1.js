@@ -1,31 +1,88 @@
-// ENSAMBLE 1
+// ============================================================================
+// TÍTULO: Ensamblaje 1 - Superposición y aplicación de filtro espacial para integrar clases
+//(bosque, deforestación, bosque quemado y no bosque)
 
-// Inicialmente se debe descargar los productos de las clasificaiones de deforestacion, bosques, y area quemada
-// Las coberturas introducidas cuenta con la postclasificacion
-// Revisar el POE que describe en terminos generales la aplicacion de esta metodolgia
+// DESCRIPCIÓN:
+// Este script genera una serie temporal anual de coberturas, integrando información de bosque,
+// deforestación, áreas quemadas y no bosque mediante un proceso de ensamblaje, armonización,
+// corrección y filtrado espacial, para construir productos anuales consistentes y corregidos
+// para el monitoreo de Bosques.
 
+// Flujo de procesamiento:
+//   1. Carga de capas base previamente descargadas:
+//        - Mosaico HLS 2017
+//        - Bosque/No Bosque
+//        - Deforestación anual
+//        - Áreas quemadas
+//        - Coberturas auxiliares de barbecho/cultivos
+//   2. Corrección y actualización de la capa Bosque/No Bosque mediante
+//      integración de máscaras auxiliares.
+//   3. Ajuste de capas de deforestación utilizando máscaras de bosque
+//      corregidas.
+//   4. Separación anual de deforestación (2018–2025).
+//   5. Construcción de coberturas forestales anuales corregidas.
+//   6. Integración de áreas quemadas sobre bosque para identificación de
+//      bosque quemado.
+//   7. Reclasificación temática estandarizada:
+//        1 = Bosque
+//        2 = Deforestación
+//        3 = No Bosque
+//        4 = Bosque Quemado
+//   8. Generación de ensamblajes anuales mediante combinación de clases.
+//   9. Aplicación de filtros espaciales:
+//        - connectedPixelCount()
+//        - focal_mode()
+//      para reducción de ruido espacial y suavizado de píxeles aislados.
+//  10. Corrección espacial mediante mosaico entre capas originales y
+//      resultados filtrados.
+//  11. Exportación de productos finales anuales a Google Drive.
+
+// AUTOR:
+// Equipo MRV - Bolivia
+
+// FECHA DE CREACIÓN:
+// 2026
+
+// DATOS DE ENTRADA:
+//   - HLS Landsat-Sentinel
+//   - Capas de Bosque/No Bosque
+//   - Productos anuales de deforestación
+//   - Productos de áreas quemadas
+//   - Máscaras auxiliares de barbecho/cultivos
+
+// CLASIFICACIÓN TEMÁTICA FINAL:
+//   - 1 = Bosque
+//   - 2 = Deforestación
+//   - 3 = No Bosque
+//   - 4 = Bosque Quemado
+
+// RESOLUCIÓN:
+// 30 metros
+
+// SISTEMA DE REFERENCIA:
+// EPSG:4326
+// ============================================================================
 
 //landsatHLS
 var vizx = {opacity: 1, bands: ['swir2','nir','red'],min: 0.03355755615234375,max: 0.3840377788270786,gamma: 1};
-// AOO
+// Area de estudio
 var aoi = ee.FeatureCollection("projects/ee-mrv-char/assets/CHAR_buffer")
 //Imagen Landsat HLS
 var changerr = ee.Image("users/armandorodriguezmontellano/HLS/Char_HLS_2017");
-// Deforestacion corregida René/Rafa (v.4)
+// Deforestacion corregida
 var Defo2018_2025 = ee.Image("projects/ee-rrcp/assets/deforestation_year_2018_2025_training_V4")
 //Deforestacion 2017
 var Def2017 = ee.Image("projects/ee-mrvbolivia1/assets/DEF_CHAR_2017/DEF_2017_MOSAICO")
 // Bosque no bosque v.1
 var BosqueNoBosque = ee.Image("projects/ee-rafaelmarco711-10/assets/CHARAGUA_BIN_FINAL_2017_v3_EDIT_PATCH_v2")// este es el ultimo q esstan corrigiendo
-// vegetacion barbechos y cultivos (rene)
+// vegetacion barbechos y cultivos
 var barbecho = ee.Image("projects/project-mrv3/assets/NoBosque_1")// bosque 1 NoBosque_2 o NoBosque_1
-// Bosque no bosque v.2
+// Bosque no bosque
 var BosqueNoBosquev2 = BosqueNoBosque.where(barbecho.eq(1), 1)
-// Bosque no bosque v.3 OJO BOSQUE ESTA CON LA CLASE 0 Y DEFO CON LA CLASE 1
-// SE ESTA REEMPLAZANDO CON LA VERSION DE BOSQUES V4
-var BosqueNoBosquev3 = Bosque_V4.select(["b1"], ["bin"])// tambien se hizo esto de restar defo.where(Def2017.eq(1), 1); Primero se descargo bosque v.3 lque ya tenia ese ajusteluego se reemplanzo como v4
-// Deforestacion ajustada (v.4 solo pata el script se dejo con v2 pero es v3)
-var Defo2018_2025_v2 = Defo2018_2025.where(BosqueNoBosquev3.eq(1), 0)//cambiar BosqueNoBosque por "BosqueNoBosquev3"
+// Bosque no bosque 
+var BosqueNoBosquev3 = Bosque_V4.select(["b1"], ["bin"])
+// Deforestacion ajustada
+var Defo2018_2025_v2 = Defo2018_2025.where(BosqueNoBosquev3.eq(1), 0)
 // Area Quemada
 var aq = ee.Image("projects/mvr-bolivia/assets/mapbiomas/fuego/burned_area_bolivia_2016_2025")
 // Area quemada por años corregida
@@ -76,9 +133,8 @@ var NonBos23 = Bo2023.where(defo2023.eq(1),2).eq(1).clip(aoi)
 var NonBos24 = Bo2024.where(defo2024.eq(1),2).eq(1).clip(aoi)
 var NonBos25 = Bo2025.where(defo2025.eq(1),2).eq(1).clip(aoi)
 
-// -------------------------------------------------------Todo en uno
-//var NonBos18_f = NonBos18.where(NonBos18.eq(1),3)
-// conviritendo la capa de NOBOSQUE EN VALORES DE 0 Y 4
+// -------------------------------------------------------
+//conversion valores NOBOSQUE en valores 0 Y 4
 var Bo2018_v2_f = Bo2018_v2.where(Bo2018_v2.eq(2), 4)
                            .where(Bo2018_v2.neq(2),0)
 var Bo2019_v2_f = Bo2019_v2.where(Bo2019_v2.eq(2), 4)
@@ -136,8 +192,7 @@ var union2024 = Bo2024_f.add(defo2024_f).add(NonBos24_f).add(Bo2024_v2_f)
 var union2025 = Bo2025_f.add(defo2025_f).add(NonBos25_f).add(Bo2025_v2_f)
 
 // Filtro espacial 
-// Primero find pixeles pequeño
-var conection2017 =  Bo2017_f.connectedPixelCount(11,false)    //PARA BOSQUE 2017
+var conection2017 =  Bo2017_f.connectedPixelCount(11,false)    
 var conection2018 = union2018.connectedPixelCount(11,false)
 var conection2019 = union2019.connectedPixelCount(11,false)
 var conection2020 = union2020.connectedPixelCount(11,false)
@@ -146,7 +201,7 @@ var conection2022 = union2022.connectedPixelCount(11,false)
 var conection2023 = union2023.connectedPixelCount(11,false)
 var conection2024 = union2024.connectedPixelCount(11,false)
 var conection2025 = union2025.connectedPixelCount(11,false)
-//Funcion de filtro por fin
+//Funcion de filtro
 function applyMajorityFilter(image) {
 
   var majority = image.focal_mode({
@@ -160,7 +215,7 @@ function applyMajorityFilter(image) {
 
 //
 //Aplicando Kernels
-var union2017_k = applyMajorityFilter(Bo2017_f) //SOLO NO ES UNION PORQUE EN ESE ES SOLO BOSQUE
+var union2017_k = applyMajorityFilter(Bo2017_f) 
 var union2018_k = applyMajorityFilter(union2018)
 var union2019_k = applyMajorityFilter(union2019)
 var union2020_k = applyMajorityFilter(union2020)
@@ -170,7 +225,7 @@ var union2023_k = applyMajorityFilter(union2023)
 var union2024_k = applyMajorityFilter(union2024)
 var union2025_k = applyMajorityFilter(union2025)
 // Asignando valor a los pixeles pequeños
-var kernes_pixeles2017 =  union2017_k.updateMask(conection2017.neq(11))// SOLO BOSQUE
+var kernes_pixeles2017 =  union2017_k.updateMask(conection2017.neq(11))
 var kernes_pixeles2018 =  union2018_k.updateMask(conection2018.neq(11))
 var kernes_pixeles2019 =  union2019_k.updateMask(conection2019.neq(11))
 var kernes_pixeles2020 =  union2020_k.updateMask(conection2020.neq(11))
@@ -179,7 +234,7 @@ var kernes_pixeles2022 =  union2022_k.updateMask(conection2022.neq(11))
 var kernes_pixeles2023 =  union2023_k.updateMask(conection2023.neq(11))
 var kernes_pixeles2024 =  union2024_k.updateMask(conection2024.neq(11))
 var kernes_pixeles2025 =  union2025_k.updateMask(conection2025.neq(11))
-// mosaiqueando
+// Generacion de Mosaicos
 var final17 = ee.ImageCollection([Bo2017_f, kernes_pixeles2017]).mosaic();
 var final18 = ee.ImageCollection([union2018, kernes_pixeles2018]).mosaic();
 var final19 = ee.ImageCollection([union2019, kernes_pixeles2019]).mosaic();
@@ -195,62 +250,61 @@ Export.image.toDrive({
   image: final17.byte(),
   description: 'final17_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final18.byte(),
   description: 'final18_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final19.byte(),
   description: 'final19_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final20.byte(),
   description: 'final20_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final21.byte(),
   description: 'final21_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final22.byte(),
   description: 'final22_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final23.byte(),
   description: 'final23_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final24.byte(),
   description: 'final24_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
+  region: cuadrado,
   maxPixels: 1e9
 });
 Export.image.toDrive({
   image: final25.byte(),
   description: 'final25_v1b_',
   scale: 30,
-  region: cuadrado,// define una geometría
-  maxPixels: 1e9
+  region: cuadrado,
 });
